@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Products
+{% endblock %}
+
+{% block top %}
+<a href="/{{session['authorized']}}/">Back</a>
+{% endblock %}
+
+
+{% block center %}
+
+{% if session["authorized"] != "management" %}            
+    <button id="myBtn" style="float: left;">Add</button>
+{% endif %}
+<table style="width: 100%;">
+{% if session["authorized"] == "management" %}            
+    <tr>
+        <th>Product</th>
+        <th>Category</th>
+        <th>Added On</th>
+        <th>Added By</th>
+    </tr>
+    {% for x in all %} 
+        {% set products  = x["products"] %}
+        {% for product in products %}   
+        <tr>    
+            <td>{{product["product"]}}</td>
+            <td>{{product["category"]}}</td>
+            <td>{{product["added-on"]}}</td>
+            <td>{{x["name"]}}</td>
+        </tr>            
+        {% endfor %}
+    {% endfor %}
+{% else %}
+    <tr>
+        <th>Product</th>
+        <th>Category</th>                
+        <th>Added On</th>
+        <th>Action</th>                    
+    </tr>
+    {% for product in products %}
+    <tr id="{{product['id']}}">          
+        <td>{{product["product"]}}</td>
+        <td>{{product["category"]}}</td>
+        <td>{{product["added-on"]}}</td>
+        <td>
+            <button onclick="clicked('{{product['id']}}')">X</button>
+        </td>
+    </tr>
+    {% endfor %}
+{% endif%}
+</table>
+{% endblock %}
+
+{% block bottom %}
+<script>
+   function clicked(params) {
+    var xhr = new XMLHttpRequest();
+    var csrf_token = "{{ csrf_token() }}";
+    xhr.open("POST", "/product/delete/", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+    xhr.send(JSON.stringify({
+        "id": params,   
+        "email": "{{session['email']}}"     
+    }));
+   
+   xhr.onreadystatechange = function() {
+    if (xhr.readyState == XMLHttpRequest.DONE) {
+        a = xhr.responseText;
+        if(JSON.parse(a)["status"] == "success"){
+            document.getElementById(params).style.display = "none";
+        }
+    }
+    }
+}
+</script>
+{% endblock %}
+
+{% block modal %}
+<div class="center">
+    <form action="/product/add/" method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="hidden" name="email" value="{{session['email']}}"/>
+        <input style="width: 100%;" placeholder="Product Name" type="text" name="product" required><br>
+        <select style="width: 100%;" name="category" id="category" required>
+            <option selected disabled> Select Category</option>            
+            <option value="Raw Materials"> Raw Materials</option>
+            <option value="Finished Goods"> Finished Goods</option>
+            <option value="Maintenance Goods"> Maintenance Goods</option>
+            <option value="Repair Goods"> Repair Goods</option>
+            <option value="Operations Goods"> Operations Goods</option>
+            <option value="Packing materials"> Packing materials</option>
+        </select><br><br>
+        <input type="submit" value="Add">
+    </form>
+</div>
+{% endblock %}

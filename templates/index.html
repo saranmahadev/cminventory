@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Home
+{% endblock %}
+
+{% block center %}
+<h1>Inventory</h1>
+<img src="{{url_for('static',filename='favicon.png')}}" width="90" alt="Inventory Logo">
+<h2>
+    <a href="/login">Login</a><br>
+    <a href="/signup">SignUp</a>
+</h2>
+{% endblock %}
+
+{% block bottom %}
+<script>
+    {% if notify == "show" %}
+    alert("Wait For Activation by Management");
+    {% endif %}
+</script>
+{% endblock %}

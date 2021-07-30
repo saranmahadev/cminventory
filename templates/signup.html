@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block title%}
+SignUp
+{% endblock %}
+
+{% block center%}
+<form action="" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input  style="width: 60%;" placeholder="Name" type="text" name="name" required ><br><br>
+    <input  style="width: 60%;" placeholder="Email" type="email" name="email" required ><br><br>
+    <input  style="width: 60%;" placeholder="Password" type="password" name="password" required ><br><br>            
+    <button type="submit">Sumbit</button>
+</form>
+{% endblock %}

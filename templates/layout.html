@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory | {% block title%}{% endblock %}</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    {% block top %}
+    {% endblock %}
+    <div class="center">
+        {% block center %}
+        {% endblock %}
+    </div>
+   
+    {% block bottom %}
+    {% endblock %}    
+    
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        {% block modal %}{% endblock %}
+      </div>
+    </div>
+    
+    <script>
+        var modal = document.getElementById("myModal");
+        var btn = document.getElementById("myBtn");
+        var span = document.getElementsByClassName("close")[0];
+        btn.onclick = function() {
+          modal.style.display = "block";
+        }
+        span.onclick = function() {
+          modal.style.display = "none";
+        }
+        window.onclick = function(event) {
+          if (event.target == modal) {
+            modal.style.display = "none";
+          }
+        }
+    </script>
+</body>
+</html>

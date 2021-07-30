@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Users
+{% endblock %}
+
+{% block top %}
+<a href="/management/">Back</a>
+{% endblock %}
+
+{% block center %}
+<table style="width:100%">
+    <tr>              
+      <th>Name</th>
+      <th>Email</th>
+      <th>Products</th>
+      <th>Status</th>
+      <th>Delete</th>
+    </tr>
+    {% for x in data %}               
+        <tr>
+            <td>{{ x["name"] }}</td>                
+            <td>{{ x["email"] }}</td>                                                
+            <td>Coming Soon!</td>
+            {% if x["auth"] == 0 %}
+                <td>
+                    <a href="/management/action?mail={{x['email']}}&to=activate&redirect={{x['type']}}">
+                        Activate 
+                    </a>
+                </td>
+            {% else %}
+                <td>
+                    <a href="/management/action?mail={{x['email']}}&to=deactivate&redirect={{x['type']}}">
+                        Deactivate                             </a>
+                </td>
+            {% endif %}
+            <td>
+                <a href="/management/delete?mail={{x['email']}}">
+                    X
+                </a>
+            </td>
+        </tr>                               
+    {% endfor%}            
+</table>
+{% endblock %}
+
+{% block bottom %}
+{% endblock %}

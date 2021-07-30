@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title%}
+Login
+{% endblock %}
+
+{% block center%}
+<select name="" id="options" style="width: 60%;">
+    <option value="choose" disabled selected>Choose</option>
+    <option value="management">Management</option>
+    <option value="user">User</option>
+</select> 
+<form method="POST" id="form">     
+</form>
+{% endblock %}
+
+{% block bottom%}
+<script>
+    document.getElementById("options").onchange = function () {
+        console.log(options.value);
+        if (options.value == "management") {
+            document.getElementById("form").innerHTML = `
+            <br>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>            
+            <input type="text" placeholder="KEY" required style="width: 60%;" name="key">
+            <br><br><button type="submit">Sumbit</button>                                 
+            `;
+        }else if(options.value == "user"){
+            document.getElementById("form").innerHTML = `            
+            <br>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input type="text" placeholder="User ID" required style="width: 60%;" name="userid"><br><br>
+            <input type="password" placeholder="Password" required style="width: 60%;" name="userpwd">
+            <br><br><button type="submit">Sumbit</button>                                 
+            `;
+        }
+    }    
+</script>
+{% endblock %}
